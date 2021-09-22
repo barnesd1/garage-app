@@ -1,0 +1,27 @@
+version: '3.6'
+services:
+  gateway:
+    container_name: garage-gateway
+    image: nginx:alpine
+    volumes:
+      - type: bind
+        source: ./gateway/nginx.conf
+        target: /etc/nginx/nginx.conf
+    ports:
+      - target: 80
+        published: 80
+  frontend:
+    container_name: garage-frontend
+    build: ./frontend
+    image: garage-frontend:latest
+  backend:
+    container_name: garage-backend
+    build: ./backend
+    image: garage-backend:latest
+    ports:
+      - target: 9002
+        published: 9002
+    environment:
+      MYSQL_SERVER: "djb-sqlserver1.mysql.database.azure.com"
+      MYSQL_USER: "DavidBarnes@djb-sqlserver1"
+      MYSQL_PASSWORD: "Abc12345"
