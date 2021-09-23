@@ -2,11 +2,8 @@ version: '3.6'
 services:
   gateway:
     container_name: garage-gateway
-    image: nginx:alpine
-    volumes:
-      - type: bind
-        source: ./gateway/nginx.conf
-        target: /etc/nginx/nginx.conf
+    image: garage-gateway:latest
+    build: ./gateway
     ports:
       - target: 80
         published: 80
